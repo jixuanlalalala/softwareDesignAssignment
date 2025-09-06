@@ -1,0 +1,4 @@
+E001,Acer Monitor,new,available
+E002,HDMI cable,used,not available
+E003,Microphone,broken,not available
+E004,Projector,new,available
