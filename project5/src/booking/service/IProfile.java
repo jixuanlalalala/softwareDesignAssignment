@@ -1,5 +1,5 @@
 package booking.service;
 
-public interface IProfile {
+public interface IProfile extends IFile {
     boolean editProfile();
 }

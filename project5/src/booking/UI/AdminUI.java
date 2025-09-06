@@ -25,9 +25,9 @@ public class AdminUI {
 		
 		do {
 			System.out.println("Welcome to Admin Page");
-			System.out.println("=============================================================");
+			System.out.println("================================================================");
 			equipmentController.viewEquipment();
-			System.out.println("=============================================================");
+			System.out.println("================================================================");
 			System.out.println("1. Add New Equipment");
 			System.out.println("2. Update Equipment");
 			System.out.println("3. Delete Equipment");

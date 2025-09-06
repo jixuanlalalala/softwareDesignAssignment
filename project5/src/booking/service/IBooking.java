@@ -1,5 +1,5 @@
 package booking.service;
 
-public interface IBooking {
+public interface IBooking extends IFile {
 
 }

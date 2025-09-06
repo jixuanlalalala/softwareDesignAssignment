@@ -20,6 +20,7 @@ public class EquipmentController implements IEquipment {
 		this.equipments = equipments;
 	}
 	
+	@Override
 	public void getDataFromFile() {
 		String filePath = "equipment.txt";
 		equipments.clear();
@@ -41,6 +42,7 @@ public class EquipmentController implements IEquipment {
 		}
 	}
 	
+	@Override
 	public void writeDataToFile() {
 		String filePath = "equipment.txt";
 		
