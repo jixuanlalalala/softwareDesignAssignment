@@ -1,5 +1,8 @@
 package booking.service;
 
-public interface IReport extends IFile {
+import java.time.LocalDate;
 
+public interface IReport {
+    void generateReport(LocalDate startDate, LocalDate endDate);
+    LocalDate toLocalDate(String strDate);
 }
