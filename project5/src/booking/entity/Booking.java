@@ -6,6 +6,7 @@ public class Booking {
 
 private String bookingId;
 private String userId;
+private String EquipmentId;
 private LocalDate startDate;
 private LocalDate endDate;
 private int updateCounter;
@@ -19,6 +20,14 @@ public Booking(String bookingId, String userId, LocalDate startDate, LocalDate e
     this.updateCounter = updateCounter;
 }
 
+public Booking (String bookingId, String userId, String EquipmentId, LocalDate startDate, LocalDate endDate, int updateCounter){
+    this.bookingId = bookingId;
+    this.userId = userId;
+    this.EquipmentId = EquipmentId;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.updateCounter = updateCounter;
+}
 
 public String getBookingId() {
     return bookingId;
@@ -58,6 +67,11 @@ public void setEndDate(LocalDate endDate) {
 public void setUpdateCounter(int updateCounter) {
     this.updateCounter = updateCounter;
 }
+
+public String getEquipmentId() {
+    return EquipmentId;
+}
+
 
 
 }
