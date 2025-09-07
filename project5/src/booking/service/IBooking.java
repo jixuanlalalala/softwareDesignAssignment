@@ -1,5 +1,9 @@
 package booking.service;
 
+import java.util.ArrayList;
+
+import booking.entity.Booking;
+
 public interface IBooking extends IFile {
 
     public void viewBooking();
@@ -9,6 +13,8 @@ public interface IBooking extends IFile {
     public void updateBooking();
 
     public void returnBooking();
+
+    public ArrayList<Booking> getBookings();
 
 
 }

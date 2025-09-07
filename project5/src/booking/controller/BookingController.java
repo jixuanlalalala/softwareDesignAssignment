@@ -9,12 +9,27 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.time.LocalDate;
 
 public class BookingController implements IBooking{
 
 	private ArrayList<Booking> bookings;
 	private IViewEquipment equipmentService;
+	
+	public BookingController() {
+		this.bookings = new ArrayList<Booking>();
+		this.equipmentService = new EquipmentController();
+		getDataFromFile();
+		writeDataToFile();
+	}
+	
+	public BookingController(IViewEquipment equipmentService) {
+		this.bookings = new ArrayList<>();
+		this.equipmentService = equipmentService; 
+		getDataFromFile();
+		writeDataToFile();
+	}
 
 	@Override
 	public void getDataFromFile() {
@@ -48,38 +63,87 @@ public class BookingController implements IBooking{
 			System.err.println("Read booking-record.txt error message:"+e.getMessage());
 		}
 		
-		
-
 	}
 
 	@Override
 	public void writeDataToFile() {
-		
-		
+		try {
+			String file = "booking-record.txt";
+			FileWriter fileWriter = new FileWriter(file);
+			BufferedWriter writer = new BufferedWriter(fileWriter);
+			
+			for (Booking booking : bookings) {
+				writer.write(booking.getBookingId() + "," +
+						     booking.getUserId() + "," +
+						     booking.getEquipmentId() + "," +
+						     booking.getStartDate() + "," +
+						     booking.getEndDate() + "," +
+						     booking.getUpdateCounter());
+				writer.newLine();
+			}
+			
+			writer.close();
+
+			System.out.println("Booking data successfully saved to file.");
+			
+		} catch (Exception e) {
+			System.err.println("Write booking-record.txt error message:" + e.getMessage());
+		}
 	}
 
 	@Override
 	public void createBooking() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public void returnBooking() {
-		// TODO Auto-generated method stub
+	
 		
 	}
 
 	@Override
 	public void updateBooking() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public void viewBooking() {
-		// TODO Auto-generated method stub
+		if (bookings.isEmpty()) {
+			System.out.println("No bookings found.");
+			return;
+		}
 		
+		System.out.println("Current Booking(s):");
+		System.out.println("------------------------------------------------------------");
+		System.out.println(String.format("%-10s %-10s %-10s %-12s %-12s %-8s", 
+				"Booking ID", "User ID", "Equipment", "Start Date", "End Date", "Updates"));
+		
+		for (Booking booking : bookings) {
+			System.out.println(String.format("%-10s %-10s %-10s %-12s %-12s %-8d", 
+					booking.getBookingId(),
+					booking.getUserId(),
+					booking.getEquipmentId(),
+					booking.getStartDate(),
+					booking.getEndDate(),
+					booking.getUpdateCounter()));
+		}
+		System.out.println("------------------------------------------------------------");
+	}
+
+	@Override
+	public ArrayList<Booking> getBookings(){
+	
+		if (bookings.isEmpty()) {
+			System.out.println("No bookings found.");
+			
+			return new ArrayList<>();
+		}
+		else {
+			return new ArrayList<>(bookings);
+		}
 	}
 
 	
