@@ -93,19 +93,19 @@ public class BookingController implements IBooking{
 
 	@Override
 	public void createBooking() {
-		
+		//tbc
 		
 	}
 
 	@Override
 	public void returnBooking() {
-	
+	//tbc
 		
 	}
 
 	@Override
 	public void updateBooking() {
-		
+		//tbc
 		
 	}
 
@@ -113,7 +113,7 @@ public class BookingController implements IBooking{
 	public void viewBooking() {
 		if (bookings.isEmpty()) {
 			System.out.println("No bookings found.");
-			return;
+			
 		}
 		
 		System.out.println("Current Booking(s):");
