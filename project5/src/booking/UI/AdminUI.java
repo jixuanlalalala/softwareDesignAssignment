@@ -2,6 +2,8 @@ package booking.UI;
 
 import booking.controller.*;
 import booking.service.*;
+
+import java.time.LocalDate;
 import java.util.*;
 
 public class AdminUI {
@@ -13,7 +15,7 @@ public class AdminUI {
 	
 	public AdminUI() {
 		this.equipmentController = new EquipmentController();
-		this.reportController = new ReportController();
+		this.reportController = new ReportController(new BookingController());
 		this.usercontroller = new UserController();
 	}
 	
@@ -49,7 +51,8 @@ public class AdminUI {
 				case 1: addEquipment();break;
 				case 2: updateEquipment();break;
 				case 3: deleteEquipment();break;
-				case 4:break; //add your method here
+				case 4: generateReport();break;
+				case 5:break; //add your method here
 			}
 			System.out.println();
 			
@@ -91,6 +94,40 @@ public class AdminUI {
 		System.out.println("Equipment deleted.");
 		
 	}
+
+	public void generateReport() {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input: Start date
+        System.out.println("Please enter the start date [DD/MM/YYYY]: ");
+        String startStrDate = scanner.nextLine();
+        LocalDate startDate = this.reportController.toLocalDate(startStrDate);
+
+        while (startDate == null)
+        {
+            System.out.println("Invalid date format. Please re-enter the start date [DD/MM/YYYY]: ");
+
+            startStrDate = scanner.nextLine();
+            startDate = this.reportController.toLocalDate(startStrDate);
+        }
+
+        // Input: End date
+        System.out.println("Please enter the end date [DD/MM/YYYY]: ");
+        String endStrDate = scanner.nextLine();
+        LocalDate endDate = this.reportController.toLocalDate(endStrDate);
+
+        while (endDate == null)
+        {
+            System.out.println("Invalid date format. Please re-enter the end date [DD/MM/YYYY]: ");
+
+            endStrDate = scanner.nextLine();
+            endDate = this.reportController.toLocalDate(endStrDate);
+        }
+
+		this.reportController.generateReport(startDate, endDate);
+
+        scanner.close();
+    }
 	
 	//this one for testing purpose, will remove after completed
 	//must remember remove hahhh
