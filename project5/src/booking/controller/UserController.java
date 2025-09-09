@@ -37,4 +37,10 @@ public class UserController implements IProfile, IRegister, ILogin{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void login(String qwerty, String password) {
+		// TODO Auto-generated method stub
+		
+	}
 }
