@@ -30,7 +30,7 @@ public class BorrowerUI {
 
         do {
 
-            System.out.println("Welcome, ");// GET username here
+            System.out.println("Welcome, " + usercontroller.getUser().getName());// GET username here
             System.out.println("=======================================================");
             System.out.println("1. Manage Booking");
             System.out.println("2. Edit Profile");
@@ -203,7 +203,7 @@ public class BorrowerUI {
             if(returnDate.isAfter(toReturn.getEndDate())){
                 System.out.println("Yoo please return the equipment earlier.");
 		    }else{
-                
+
             }
         
             bookingController.returnBooking(toReturn.getBookingId(), returnDate);
