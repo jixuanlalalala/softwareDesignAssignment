@@ -1,6 +1,7 @@
 package booking.controller;
 
 import booking.entity.Booking;
+import booking.entity.Equipment;
 import booking.service.*;
 
 import java.util.*;
@@ -12,10 +13,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.LocalDate;
 
+
 public class BookingController implements IBooking{
 
 	private ArrayList<Booking> bookings;
-	private IViewEquipment equipmentService;
+	public IViewEquipment equipmentService;
 	
 	public BookingController() {
 		this.bookings = new ArrayList<Booking>();
@@ -30,6 +32,7 @@ public class BookingController implements IBooking{
 		getDataFromFile();
 		writeDataToFile();
 	}
+	
 
 	@Override
 	public void getDataFromFile() {
@@ -43,13 +46,14 @@ public class BookingController implements IBooking{
 			while(data != null){
 				String[] aRecord = data.split(",");
 				
-				if(aRecord.length == 6){
+				if(aRecord.length == 7){
 					bookings.add(new Booking(aRecord[0].trim(),
 											 aRecord[1].trim(),
 											 aRecord[2].trim(),
 											 LocalDate.parse(aRecord[3].trim()),
 											 LocalDate.parse(aRecord[4].trim()),
-											 Integer.valueOf(aRecord[5].trim())));
+											 (aRecord[5].trim() == "" ? null : LocalDate.parse(aRecord[5].trim())),
+											 Integer.valueOf(aRecord[6].trim())));
 					
 				}else{
 					System.out.println("Invalid booking record!");
@@ -78,6 +82,7 @@ public class BookingController implements IBooking{
 						     booking.getEquipmentId() + "," +
 						     booking.getStartDate() + "," +
 						     booking.getEndDate() + "," +
+							 (booking.getReturnDate() == null ? "" : booking.getReturnDate()) + "," +
 						     booking.getUpdateCounter());
 				writer.newLine();
 			}
@@ -93,20 +98,28 @@ public class BookingController implements IBooking{
 
 	@Override
 	public void createBooking() {
-		//tbc
+		String id = generateNewBookingId();
+		LocalDate currentDate = LocalDate.now();
+		LocalDate endDate = currentDate.plusWeeks(1);
+		Booking newBooking = new Booking(id, id, id, currentDate, endDate,null, 2);
+		bookings.add(newBooking);
+		
 		
 	}
 
 	@Override
-	public void returnBooking() {
-	//tbc
-		
+	public void returnBooking(String bookingId, LocalDate returnDate) {
+		Booking toReturn = getBookingById(bookingId);
+		toReturn.setReturnDate(returnDate);
+		writeDataToFile();
 	}
 
 	@Override
-	public void updateBooking() {
-		//tbc
-		
+	public void updateBooking(String bookingId) {
+		Booking update = getBookingById(bookingId);
+		update.setEndDate(update.getEndDate().plusWeeks(1));
+		update.setUpdateCounter(update.getUpdateCounter()+1);
+		writeDataToFile();
 	}
 
 	@Override
@@ -145,6 +158,38 @@ public class BookingController implements IBooking{
 			return new ArrayList<>(bookings);
 		}
 	}
+
+	@Override 
+	public Booking getBookingById(String bookingId){
+		for(Booking b:bookings){
+			if(b.getBookingId().equals(bookingId)){
+				return b;
+			}
+		}
+		return null;
+
+	}
+
+	@Override
+	public String generateNewBookingId() {
+		int maxId = 0;
+		
+		for (Booking b: bookings) {
+			String currentId = b.getBookingId();
+			try {
+				int num = Integer.parseInt(currentId);
+				if (num > maxId) {
+					maxId = num;
+				}
+			} catch (NumberFormatException ex) {
+				
+			}
+		}
+		
+		return String.valueOf(maxId + 1);
+	}
+
+	
 
 	
 
