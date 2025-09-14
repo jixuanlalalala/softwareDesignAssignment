@@ -107,23 +107,29 @@ public class EquipmentController implements IEquipment {
 	}
 
 	@Override
-	public void updateEquipment(String id, String name, String condition) {
+	public boolean updateEquipment(String id, String name, String condition) {
 		Equipment e = getEquipmentById(id);
 		if (e != null) {
 			e.setName(name);
 			e.setCondition(condition);
 			writeDataToFile();
+			return true;
+		} else {
+			return false;
 		}
 		
 		
 	}
 
 	@Override
-	public void deleteEquipment(String id) {
+	public boolean deleteEquipment(String id) {
 		Equipment e = getEquipmentById(id);
 		if (e != null) {
 			equipments.remove(e);
 			writeDataToFile();
+			return true;
+		} else {
+			return false;
 		}
 	}
 

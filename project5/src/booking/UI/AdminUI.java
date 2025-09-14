@@ -26,7 +26,7 @@ public class AdminUI {
 		int choice;
 		
 		do {
-			System.out.println("Welcome to Admin Page");
+			System.out.println("\nWelcome to Admin Page");
 			System.out.println("================================================================");
 			equipmentController.viewEquipment();
 			System.out.println("================================================================");
@@ -62,8 +62,23 @@ public class AdminUI {
 	
 
 	public void addEquipment() {
-		System.out.println("Enter equipment name: ");
-		String eName = sc.nextLine();
+		String eName;
+		
+		while (true) {
+			System.out.println("Enter equipment name or E to exit: ");
+			eName = sc.nextLine();
+			
+			if (eName.equalsIgnoreCase("E")) {
+				System.out.println("Exiting add equipment...");
+				return;
+			} else if (eName.isEmpty()) {
+				System.out.println("Invalid input.");
+				continue;
+			} else {
+				break;
+			}
+		}
+		
 		System.out.println("Enter equipment condition [new/used/broken]: ");
 		String eCondition = sc.nextLine();
 		
@@ -74,24 +89,52 @@ public class AdminUI {
 	
 	
 	public void updateEquipment() {
-		System.out.println("Enter equipment ID: ");
-		String eID = sc.nextLine();
-		System.out.println("Enter equipment name: ");
-		String eName = sc.nextLine();
-		System.out.println("Enter equipment condition [new/used/broken]: ");
-		String eCondition = sc.nextLine();
 		
-		equipmentController.updateEquipment(eID, eName, eCondition);
-		System.out.println("Equipment updated.");
+		while (true) {
+			System.out.println("Enter equipment ID or E to exit: ");
+			String eID = sc.nextLine();
+			
+			if (eID.equalsIgnoreCase("E")) {
+				System.out.println("Exiting update equipment...");
+				return;
+			} else if (eID.isEmpty()) {
+				System.out.println("Invalid input.");
+				continue;
+			}
+			
+			System.out.println("Enter equipment name: ");
+			String eName = sc.nextLine();
+			System.out.println("Enter equipment condition [new/used/broken]: ");
+			String eCondition = sc.nextLine();
+			
+			if (equipmentController.updateEquipment(eID, eName, eCondition))
+				System.out.println("Equipment updated.");
+			else 
+				System.out.println("Equipment not found. Please try again.");
+		}
 		
 	}
 	
 	public void deleteEquipment() {
-		System.out.println("Enter equipment ID: ");
-		String eID = sc.nextLine();
+		while (true) {
+			System.out.println("Enter equipment ID or E to exit: ");
+			String eID = sc.nextLine();
+			
+			if (eID.equalsIgnoreCase("E")) {
+				System.out.println("Exiting delete equipment...");
+				return;
+			} else if (eID.isEmpty()) {
+				System.out.println("Invalid input.");
+				continue;
+			}
+			
+			if (equipmentController.deleteEquipment(eID))
+				System.out.println("Equipment deleted.");
+			else
+				System.out.println("Equipment not found. Please try again.");
+		}
 		
-		equipmentController.deleteEquipment(eID);
-		System.out.println("Equipment deleted.");
+		
 		
 	}
 
