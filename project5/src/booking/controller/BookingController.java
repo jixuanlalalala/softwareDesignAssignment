@@ -82,7 +82,7 @@ public class BookingController implements IBooking{
 			
 			//writer.close();
 
-			System.out.println("Booking data successfully saved to file.");
+			//System.out.println("Booking data successfully saved to file.");
 			
 		} catch (Exception e) {
 			System.err.println("Write booking-record.txt error message:" + e.getMessage());

@@ -224,11 +224,20 @@ public class BorrowerUI {
         }
 
         else{
-            LocalDate returnDate =  LocalDate.now();
-            bookingController.returnBooking(toReturn.getBookingId(), returnDate);
-            System.out.println("Return booking successfully");
-            scanner.nextLine();
-            break;
+             LocalDate returnDate =  LocalDate.now();
+
+             if (returnDate.isAfter(toReturn.getEndDate())) {
+                 System.out.println("Yoo please return the equipment earlier.");
+                 bookingController.returnBooking(toReturn.getBookingId(), returnDate);
+             } else {
+                 bookingController.returnBooking(toReturn.getBookingId(), returnDate);
+                 System.out.println("Return booking successfully");
+                 scanner.nextLine();
+                
+             }
+              break;
+           
+            
         }
         }while (true);
        
