@@ -99,6 +99,7 @@ public class BorrowerUI {
                         
                         System.out.println("Booking limit is reached, kindly return borrowed equipment first! Thanks.");
                         scanner.next();
+                        bookingServiceOption = "E";
                     } else {
                         createBooking();
                     }
