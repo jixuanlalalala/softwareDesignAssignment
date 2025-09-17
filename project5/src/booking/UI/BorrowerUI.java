@@ -95,6 +95,8 @@ public class BorrowerUI {
                     Borrower aBorrower = (Borrower) usercontroller.getUser();
                     int bookingNo = aBorrower.getCurrentBookingNo();
                     if (bookingNo == 0) {
+                        bookingServiceOption = "E";
+                        
                         System.out.println("Booking limit is reached, kindly return borrowed equipment first! Thanks.");
                         scanner.next();
                     } else {
