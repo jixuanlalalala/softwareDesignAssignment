@@ -110,7 +110,7 @@ public class EquipmentController implements IEquipment {
 	}
 
 	@Override
-	public void updateEquipment(String id, String name, String condition) {
+	public void updateEquipment(String id, String name, String condition, String status) {
 		Equipment e = getEquipmentById(id);
 		if (!name.isEmpty()) {
 			e.setName(name);
@@ -119,6 +119,12 @@ public class EquipmentController implements IEquipment {
 		if (!condition.isEmpty()) {
 			e.setCondition(condition);
 		}
+
+		if (!status.isEmpty()) {
+			e.setStatus(status);
+		}
+
+
 				
 		System.out.println(e.toString());
 		writeDataToFile();

@@ -4,6 +4,9 @@ import booking.service.IBooking;
 import booking.service.IProfile;
 import booking.service.ILogin;
 import booking.service.IEquipment;
+import booking.controller.BookingController;
+import booking.controller.UserController;
+import booking.controller.EquipmentController;
 import booking.entity.Booking;
 import booking.entity.Borrower;
 import booking.entity.Equipment;
@@ -19,10 +22,18 @@ public class BorrowerUI {
     private Scanner scanner;
 
     public BorrowerUI(IBooking bookingController, ILogin usercontroller, IProfile profileController) {
-        this.bookingController = bookingController;
-        this.usercontroller = usercontroller;
-        this.profileController = profileController;
+        this.bookingController = new BookingController();
+        this.usercontroller =  new UserController();
+        //this.profileController = new profileController();
     }
+    
+
+    public BorrowerUI() {
+        this.bookingController = new BookingController();
+        this.usercontroller =  new UserController();
+        this.equipmentController =  new EquipmentController();
+    }
+
 
     public void showMenu() {
         scanner = new Scanner(System.in);
@@ -122,57 +133,70 @@ public class BorrowerUI {
 
     public void createBooking(){
         equipmentController.viewEquipment();
-        System.out.print("Enter Equipment ID or E to exit >>>");
-        String equipmentID = scanner.nextLine();
-        Equipment anEquipment = equipmentController.getEquipmentById(equipmentID);
-
-        do{
-
-            if(anEquipment == null && !equipmentID.equalsIgnoreCase("E")){
-                System.out.println("Invalid choice.");
-            } 
-            else if(anEquipment == null){
-                System.out.println("Equipment not found. ");
-            }
-
-        } while (equipmentID.equalsIgnoreCase("E"));
-
-        if(anEquipment!=null){
+        String equipmentID;
+        Equipment anEquipment;
+        Borrower aBorrower = (Borrower) usercontroller.getUser();
         
-            equipmentController.updateEquipment(anEquipment.getEquipmentId(), anEquipment.getName(), "booked");
-            bookingController.createBooking();
-            System.out.println("Create booking successfully");
-            scanner.nextLine();
+        // while(anEquipment == null && !equipmentID.equalsIgnoreCase("E")){
+        //      System.out.println("Invalid choice.");
+        //      equipmentID = scanner.nextLine();
+        // }
+              //&& !equipmentID.equalsIgnoreCase("E")
+
+
+    do{
+        System.out.print("Enter Equipment ID or E to exit >>>");
+        equipmentID = scanner.nextLine();
+        anEquipment = equipmentController.getEquipmentById(equipmentID);
+
+        if (equipmentID.equalsIgnoreCase("E")) {
+            break;
+        } else if ((anEquipment == null && !equipmentID.equalsIgnoreCase("E"))) {
+            System.out.println("Invalid choice.");
 
         }
 
-    }
+        else if (anEquipment != null && anEquipment.getStatus().equals("booked")) {
+            System.out.println("Equipment booked. ");
+
+        }
+        else{
+            bookingController.createBooking(anEquipment, aBorrower);
+            equipmentController.updateEquipment(anEquipment.getEquipmentId(), anEquipment.getName(), anEquipment.getCondition(), "booked");
+            System.out.println("Create booking successfully");
+            scanner.nextLine();
+            break;
+        }
+        }while (true);
+    } 
+
+
 
     public void updateBooking() {
         bookingController.viewBooking();
-        System.out.println("Enter Booking ID to extend >>>");
+        do{
+        System.out.println("Enter Booking ID to extend or E to Exit>>>");
         String bookingID = scanner.nextLine();
 
         Booking toUpdate= bookingController.getBookingById(bookingID);
 
-        do{
+        if (bookingID.equalsIgnoreCase("E")) {
+            break;
+        } else if ((toUpdate == null && !bookingID.equalsIgnoreCase("E"))) {
+            System.out.println("Invalid choice.");
 
-            if(toUpdate == null && !bookingID.equalsIgnoreCase("E")){
-                System.out.println("Invalid choice.");
-            } 
-            else if(bookingID == null){
-                System.out.println("Booking not found. ");
-            }
+        }
 
-        } while (bookingID.equalsIgnoreCase("E"));
-
-        if(toUpdate!=null){
-        
+        else{
             bookingController.updateBooking(toUpdate.getBookingId());
             System.out.println("Update booking successfully");
             scanner.nextLine();
-
+            break;
         }
+        }while (true);
+        
+
+      
 
 
 
@@ -180,38 +204,30 @@ public class BorrowerUI {
 
     public void returnBooking() {
         bookingController.viewBooking();
-        System.out.println("Enter Booking ID to return >>>");
+        do{
+       System.out.println("Enter Booking ID to return or E to Exit>>>");
         String bookingID = scanner.nextLine();
 
         Booking toReturn= bookingController.getBookingById(bookingID);
 
-        do{
+        if (bookingID.equalsIgnoreCase("E")) {
+            break;
+        } else if ((toReturn == null && !bookingID.equalsIgnoreCase("E"))) {
+            System.out.println("Invalid choice.");
 
-            if(toReturn == null && !bookingID.equalsIgnoreCase("E")){
-                System.out.println("Invalid choice.");
-            } 
-            else if(bookingID == null){
-                System.out.println("Booking not found. ");
-            }
+        }
 
-        } while (bookingID.equalsIgnoreCase("E"));
-
-        if(toReturn!=null){
+        else{
             LocalDate returnDate =  LocalDate.now();
-
-            if(returnDate.isAfter(toReturn.getEndDate())){
-                System.out.println("Yoo please return the equipment earlier.");
-		    }else{
-
-            }
-        
             bookingController.returnBooking(toReturn.getBookingId(), returnDate);
             System.out.println("Return booking successfully");
             scanner.nextLine();
-
+            break;
         }
-        		
-		
+        }while (true);
+       
+        
+        
 
     }
 
@@ -225,4 +241,8 @@ public class BorrowerUI {
 
     }
 
+    public static void main(String[] args) {
+        BorrowerUI bw = new BorrowerUI();
+        bw.showMenu();
+    }
 }
