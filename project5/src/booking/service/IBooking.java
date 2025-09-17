@@ -4,13 +4,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import booking.entity.Booking;
+import booking.entity.Borrower;
+import booking.entity.Equipment;
 
 public interface IBooking extends IFile {
 
 
     public void viewBooking();
 
-    public void createBooking();
+    public void createBooking(Equipment anEquipment, Borrower aBorrower);
 
     public void updateBooking(String bookingId);
 

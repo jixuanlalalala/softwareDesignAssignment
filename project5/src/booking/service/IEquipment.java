@@ -6,7 +6,7 @@ public interface IEquipment extends IViewEquipment, IFile {
 	
 	public void addEquipment(String name, String condition);
 	
-	public void updateEquipment(String id, String name, String condition);
+	public void updateEquipment(String id, String name, String condition, String status);
 	
 	public void deleteEquipment(String id);
 

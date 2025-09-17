@@ -1,6 +1,7 @@
 package booking.controller;
 
 import booking.entity.Booking;
+import booking.entity.Borrower;
 import booking.entity.Equipment;
 import booking.service.*;
 
@@ -17,33 +18,26 @@ import java.time.LocalDate;
 public class BookingController implements IBooking{
 
 	private ArrayList<Booking> bookings;
-	public IViewEquipment equipmentService;
+	public IEquipment equipmentService;
 	
 	public BookingController() {
 		this.bookings = new ArrayList<Booking>();
 		this.equipmentService = new EquipmentController();
 		getDataFromFile();
-		writeDataToFile();
+		//writeDataToFile();
 	}
 	
-	public BookingController(IViewEquipment equipmentService) {
-		this.bookings = new ArrayList<>();
-		this.equipmentService = equipmentService; 
-		getDataFromFile();
-		writeDataToFile();
-	}
 	
 
 	@Override
 	public void getDataFromFile() {
-		try {
-			String file = "booking-record.txt";
-			FileReader fileReader = new FileReader(file);
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
+	String file = "booking-record.txt";
+	bookings.clear();
+		try (BufferedReader bufferedReader = new BufferedReader( new FileReader(file))){
+	
+			String data;
 
-			String data = bufferedReader.readLine();
-
-			while(data != null){
+			while((data = bufferedReader.readLine()) != null){
 				String[] aRecord = data.split(",");
 				
 				if(aRecord.length == 7){
@@ -52,16 +46,16 @@ public class BookingController implements IBooking{
 											 aRecord[2].trim(),
 											 LocalDate.parse(aRecord[3].trim()),
 											 LocalDate.parse(aRecord[4].trim()),
-											 (aRecord[5].trim() == "" ? null : LocalDate.parse(aRecord[5].trim())),
+											 (aRecord[5].trim().equals("")? null : LocalDate.parse(aRecord[5].trim())),
 											 Integer.valueOf(aRecord[6].trim())));
 					
 				}else{
 					System.out.println("Invalid booking record!");
 				}
 				
-				data = bufferedReader.readLine();
+				//data = bufferedReader.readLine();
 			}
-			bufferedReader.close();
+			//bufferedReader.close();
 			
 		} catch (Exception e) {
 			System.err.println("Read booking-record.txt error message:"+e.getMessage());
@@ -71,10 +65,9 @@ public class BookingController implements IBooking{
 
 	@Override
 	public void writeDataToFile() {
-		try {
-			String file = "booking-record.txt";
-			FileWriter fileWriter = new FileWriter(file);
-			BufferedWriter writer = new BufferedWriter(fileWriter);
+		String file = "booking-record.txt";
+		try (BufferedWriter writer = new BufferedWriter( new FileWriter(file))){
+			
 			
 			for (Booking booking : bookings) {
 				writer.write(booking.getBookingId() + "," +
@@ -87,9 +80,9 @@ public class BookingController implements IBooking{
 				writer.newLine();
 			}
 			
-			writer.close();
+			//writer.close();
 
-			System.out.println("Booking data successfully saved to file.");
+			//System.out.println("Booking data successfully saved to file.");
 			
 		} catch (Exception e) {
 			System.err.println("Write booking-record.txt error message:" + e.getMessage());
@@ -97,13 +90,13 @@ public class BookingController implements IBooking{
 	}
 
 	@Override
-	public void createBooking() {
+	public void createBooking(Equipment anEquipment, Borrower aBorrower) {
 		String id = generateNewBookingId();
 		LocalDate currentDate = LocalDate.now();
 		LocalDate endDate = currentDate.plusWeeks(1);
-		Booking newBooking = new Booking(id, id, id, currentDate, endDate,null, 2);
+		Booking newBooking = new Booking(id,aBorrower.getUserId(),anEquipment.getEquipmentId(),currentDate, endDate,null, 2);
 		bookings.add(newBooking);
-		
+		writeDataToFile();
 		
 	}
 
@@ -118,7 +111,7 @@ public class BookingController implements IBooking{
 	public void updateBooking(String bookingId) {
 		Booking update = getBookingById(bookingId);
 		update.setEndDate(update.getEndDate().plusWeeks(1));
-		update.setUpdateCounter(update.getUpdateCounter()+1);
+		update.setUpdateCounter(update.getUpdateCounter()-1);
 		writeDataToFile();
 	}
 
@@ -128,8 +121,8 @@ public class BookingController implements IBooking{
 			System.out.println("No bookings found.");
 			
 		}
-		
-		System.out.println("Current Booking(s):");
+		else{
+			System.out.println("Current Booking(s):");
 		System.out.println("------------------------------------------------------------");
 		System.out.println(String.format("%-10s %-10s %-10s %-12s %-12s %-12s %-8s", 
 				"Booking ID", "User ID", "Equipment", "Start Date", "End Date","Return Date", "Updates"));
@@ -145,6 +138,9 @@ public class BookingController implements IBooking{
 					booking.getUpdateCounter()));
 		}
 		System.out.println("------------------------------------------------------------");
+
+		}
+		
 	}
 
 	@Override
