@@ -21,45 +21,52 @@ public class AdminUI {
 	
 	
 	public void showMenu() {
+		System.out.println("\nWelcome to Admin Page");
 		sc = new Scanner(System.in);
 		
 		int choice;
 		
 		do {
-			System.out.println("\nWelcome to Admin Page");
-			System.out.println("================================================================");
-			equipmentController.viewEquipment();
-			System.out.println("================================================================");
-			System.out.println("1. Add New Equipment");
-			System.out.println("2. Update Equipment");
-			System.out.println("3. Delete Equipment");
-			System.out.println("4. Generate Report");
-			System.out.println("5. Logout");
 			
-			System.out.print("Enter your choice (1-5): ");
+			System.out.println("================================================================");
+			//equipmentController.viewEquipment();
+			//System.out.println("================================================================");
+			System.out.println("1. View Equipment");
+			System.out.println("2. Add New Equipment");
+			System.out.println("3. Update Equipment");
+			System.out.println("4. Delete Equipment");
+			System.out.println("5. Generate Report");
+			System.out.println("6. Logout");
+			System.out.println("================================================================");
+			
+			System.out.print("Enter your choice (1-6): ");
 			choice = sc.nextInt();
 			String skip = sc.nextLine();
 			
-			while (choice < 1 || choice > 5) {
+			while (choice < 1 || choice > 6) {
 				System.out.println("Invalid choice.");
-				System.out.print("Enter your choice (1-5): ");
+				System.out.print("Enter your choice (1-6): ");
 				choice = sc.nextInt();
 				skip = sc.nextLine();
 			}
 			
 			switch (choice) {
-				case 1: addEquipment();break;
-				case 2: updateEquipment();break;
-				case 3: deleteEquipment();break;
-				case 4: generateReport();break;
-				case 5:break; //add your method here
+				case 1: viewEquipment();break;
+				case 2: addEquipment();break;
+				case 3: updateEquipment();break;
+				case 4: deleteEquipment();break;
+				case 5: generateReport();break;
+				case 6:break; //add your method here
 			}
 			System.out.println();
 			
-		} while (choice != 5);
+		} while (choice != 6);
 	}
-
 	
+	public void viewEquipment() {
+		System.out.println();
+		equipmentController.viewEquipment();
+	}
 
 	public void addEquipment() {
 		String eName;
@@ -81,6 +88,11 @@ public class AdminUI {
 		
 		System.out.println("Enter equipment condition [new/used/broken]: ");
 		String eCondition = sc.nextLine();
+		while (!eCondition.equals("new") && !eCondition.equals("used") && !eCondition.equals("broken")) {
+			System.out.println("Invalid condition");
+			System.out.println("Enter equipment condition [new/used/broken]: ");
+			eCondition = sc.nextLine();
+		}
 		
 		equipmentController.addEquipment(eName, eCondition);
 		System.out.println("Equipment added.");
@@ -102,13 +114,21 @@ public class AdminUI {
 				continue;
 			}
 			
-			System.out.println("Enter equipment name: ");
-			String eName = sc.nextLine();
-			System.out.println("Enter equipment condition [new/used/broken]: ");
-			String eCondition = sc.nextLine();
-			
-			if (equipmentController.updateEquipment(eID, eName, eCondition))
+			if (equipmentController.getEquipmentById(eID) != null) {
+				System.out.println("Enter equipment name (Press enter if nothing change): ");
+				String eName = sc.nextLine();
+				System.out.println("Enter equipment condition [new/used/broken] (Press enter if nothing change): ");
+				String eCondition = sc.nextLine();
+				while (!eCondition.equals("new") && !eCondition.equals("used") && !eCondition.equals("broken") && !eCondition.isEmpty()) {
+					System.out.println("Invalid condition");
+					System.out.println("Enter equipment condition [new/used/broken] (Press enter if nothing change): ");
+					eCondition = sc.nextLine();
+				}
+				
+				equipmentController.updateEquipment(eID, eName, eCondition);
 				System.out.println("Equipment updated.");
+	
+			}
 			else 
 				System.out.println("Equipment not found. Please try again.");
 		}
@@ -128,8 +148,10 @@ public class AdminUI {
 				continue;
 			}
 			
-			if (equipmentController.deleteEquipment(eID))
+			if (equipmentController.getEquipmentById(eID) != null) {
+				equipmentController.deleteEquipment(eID);
 				System.out.println("Equipment deleted.");
+			}
 			else
 				System.out.println("Equipment not found. Please try again.");
 		}

@@ -58,12 +58,15 @@ public class EquipmentController implements IEquipment {
 
 	@Override
 	public void viewEquipment() {
-		System.out.println(String.format("%-13s %-21s %-13s %-15s", 
-                "Equipment Id", "Name", "Condition", "Status"));
-        for (Equipment eq : equipments) {
-            System.out.println(eq);
-        }
-		
+		if (equipments.isEmpty())
+			System.out.println("No equipment found.");
+		else {
+			System.out.println(String.format("%-13s %-21s %-13s %-15s", 
+	                "Equipment Id", "Name", "Condition", "Status"));
+	        for (Equipment eq : equipments) {
+	            System.out.println(eq);
+	        }
+		}
 	}
 
 	@Override
@@ -107,30 +110,25 @@ public class EquipmentController implements IEquipment {
 	}
 
 	@Override
-	public boolean updateEquipment(String id, String name, String condition) {
+	public void updateEquipment(String id, String name, String condition) {
 		Equipment e = getEquipmentById(id);
-		if (e != null) {
+		if (!name.isEmpty()) {
 			e.setName(name);
-			e.setCondition(condition);
-			writeDataToFile();
-			return true;
-		} else {
-			return false;
 		}
-		
-		
+				
+		if (!condition.isEmpty()) {
+			e.setCondition(condition);
+		}
+				
+		System.out.println(e.toString());
+		writeDataToFile();
 	}
 
 	@Override
-	public boolean deleteEquipment(String id) {
+	public void deleteEquipment(String id) {
 		Equipment e = getEquipmentById(id);
-		if (e != null) {
-			equipments.remove(e);
-			writeDataToFile();
-			return true;
-		} else {
-			return false;
-		}
+		equipments.remove(e);
+		writeDataToFile();
 	}
 
 }
