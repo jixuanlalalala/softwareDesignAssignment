@@ -132,15 +132,16 @@ public class BookingController implements IBooking{
 		System.out.println("Current Booking(s):");
 		System.out.println("------------------------------------------------------------");
 		System.out.println(String.format("%-10s %-10s %-10s %-12s %-12s %-8s", 
-				"Booking ID", "User ID", "Equipment", "Start Date", "End Date", "Updates"));
+				"Booking ID", "User ID", "Equipment", "Start Date", "End Date","Return Date", "Updates"));
 		
 		for (Booking booking : bookings) {
-			System.out.println(String.format("%-10s %-10s %-10s %-12s %-12s %-8d", 
+			System.out.println(String.format("%-10s %-10s %-10s %-12s %-12s %-12s %-8d", 
 					booking.getBookingId(),
 					booking.getUserId(),
 					booking.getEquipmentId(),
 					booking.getStartDate(),
 					booking.getEndDate(),
+					booking.getReturnDate(),
 					booking.getUpdateCounter()));
 		}
 		System.out.println("------------------------------------------------------------");
