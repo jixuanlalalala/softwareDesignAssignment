@@ -116,7 +116,10 @@ public class BorrowerUI {
                 }
                     break;
                 case "2":
-                    updateBooking();
+                     updateBooking();
+                  
+                
+                   
                     break;
                 case "3":
                     returnBooking();
@@ -174,6 +177,8 @@ public class BorrowerUI {
 
     public void updateBooking() {
         bookingController.viewBooking();
+        
+        
         do{
         System.out.println("Enter Booking ID to extend or E to Exit>>>");
         String bookingID = scanner.nextLine();
@@ -185,8 +190,9 @@ public class BorrowerUI {
         } else if ((toUpdate == null && !bookingID.equalsIgnoreCase("E"))) {
             System.out.println("Invalid choice.");
 
+        }else if(toUpdate.getUpdateCounter() == 0){
+            System.out.println("Update reached limit. Please return the equipment. Thanks");
         }
-
         else{
             bookingController.updateBooking(toUpdate.getBookingId());
             System.out.println("Update booking successfully");

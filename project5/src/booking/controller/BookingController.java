@@ -26,16 +26,18 @@ public class BookingController implements IBooking{
 		getDataFromFile();
 		//writeDataToFile();
 	}
+	
+	
+
 	@Override
 	public void getDataFromFile() {
-		try {
-			String file = "booking-record.txt";
-			FileReader fileReader = new FileReader(file);
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
+	String file = "booking-record.txt";
+	bookings.clear();
+		try (BufferedReader bufferedReader = new BufferedReader( new FileReader(file))){
+	
+			String data;
 
-			String data = bufferedReader.readLine();
-
-			while(data != null){
+			while((data = bufferedReader.readLine()) != null){
 				String[] aRecord = data.split(",");
 				
 				if(aRecord.length == 7){
@@ -51,57 +53,21 @@ public class BookingController implements IBooking{
 					System.out.println("Invalid booking record!");
 				}
 				
-				data = bufferedReader.readLine();
+				//data = bufferedReader.readLine();
 			}
-			bufferedReader.close();
+			//bufferedReader.close();
 			
 		} catch (Exception e) {
 			System.err.println("Read booking-record.txt error message:"+e.getMessage());
 		}
 		
-	}	
-	
-
-	// @Override
-	// public void getDataFromFile() {
-	// String file = "booking-record.txt";
-	// bookings.clear();
-	// 	try (BufferedReader bufferedReader = new BufferedReader( new FileReader(file))){
-	
-	// 		String data;
-
-	// 		while((data = bufferedReader.readLine()) != null){
-	// 			String[] aRecord = data.split(",");
-				
-	// 			if(aRecord.length == 7){
-	// 				bookings.add(new Booking(aRecord[0].trim(),
-	// 										 aRecord[1].trim(),
-	// 										 aRecord[2].trim(),
-	// 										 LocalDate.parse(aRecord[3].trim()),
-	// 										 LocalDate.parse(aRecord[4].trim()),
-	// 										 (aRecord[5].trim().equals("")? null : LocalDate.parse(aRecord[5].trim())),
-	// 										 Integer.valueOf(aRecord[6].trim())));
-					
-	// 			}else{
-	// 				System.out.println("Invalid booking record!");
-	// 			}
-				
-	// 			//data = bufferedReader.readLine();
-	// 		}
-	// 		//bufferedReader.close();
-			
-	// 	} catch (Exception e) {
-	// 		System.err.println("Read booking-record.txt error message:"+e.getMessage());
-	// 	}
-		
-	// }
+	}
 
 	@Override
 	public void writeDataToFile() {
-		try {
-			String file = "booking-record.txt";
-			FileWriter fileWriter = new FileWriter(file);
-			BufferedWriter writer = new BufferedWriter(fileWriter);
+		String file = "booking-record.txt";
+		try (BufferedWriter writer = new BufferedWriter( new FileWriter(file))){
+			
 			
 			for (Booking booking : bookings) {
 				writer.write(booking.getBookingId() + "," +
@@ -114,7 +80,7 @@ public class BookingController implements IBooking{
 				writer.newLine();
 			}
 			
-			writer.close();
+			//writer.close();
 
 			System.out.println("Booking data successfully saved to file.");
 			
@@ -122,7 +88,6 @@ public class BookingController implements IBooking{
 			System.err.println("Write booking-record.txt error message:" + e.getMessage());
 		}
 	}
-
 
 	@Override
 	public void createBooking(Equipment anEquipment, Borrower aBorrower) {
@@ -146,7 +111,7 @@ public class BookingController implements IBooking{
 	public void updateBooking(String bookingId) {
 		Booking update = getBookingById(bookingId);
 		update.setEndDate(update.getEndDate().plusWeeks(1));
-		update.setUpdateCounter(update.getUpdateCounter()+1);
+		update.setUpdateCounter(update.getUpdateCounter()-1);
 		writeDataToFile();
 	}
 
