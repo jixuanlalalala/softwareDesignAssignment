@@ -97,7 +97,6 @@ public class BorrowerUI {
                     if (bookingNo == 0) {
                         System.out.println("Booking limit is reached, kindly return borrowed equipment first! Thanks.");
                         scanner.next();
-                        showMenu();
                     } else {
                         createBooking();
                     }
@@ -111,7 +110,6 @@ public class BorrowerUI {
                     returnBooking();
                     break;
                 case "E":
-                    showMenu();
                     break;
                 default:
                     break;
