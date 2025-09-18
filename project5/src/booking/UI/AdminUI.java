@@ -133,7 +133,7 @@ public class AdminUI {
 					eCondition = sc.nextLine();
 				}
 				
-				equipmentController.updateEquipment(eID, eName, eCondition,equipmentController.getEquipmentById(eID).getStatus());
+				equipmentController.updateEquipment(eID, eName, eCondition,equipmentToUpdate.getStatus());
 				System.out.println("Equipment updated.");
 	
 			}
