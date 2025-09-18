@@ -2,6 +2,7 @@ package booking.UI;
 
 import booking.controller.*;
 import booking.service.*;
+import booking.entity.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -120,7 +121,8 @@ public class AdminUI {
 				continue;
 			}
 			
-			if (equipmentController.getEquipmentById(eID) != null) {
+			Equipment equipmentToUpdate = equipmentController.getEquipmentById(eID);
+			if (equipmentToUpdate != null) {
 				System.out.println("Enter equipment name (Press enter if nothing change): ");
 				String eName = sc.nextLine();
 				System.out.println("Enter equipment condition [new/used/broken] (Press enter if nothing change): ");
@@ -154,7 +156,8 @@ public class AdminUI {
 				continue;
 			}
 			
-			if (equipmentController.getEquipmentById(eID) != null) {
+			Equipment equipmentToDelete = equipmentController.getEquipmentById(eID);
+			if (equipmentToDelete != null) {
 				equipmentController.deleteEquipment(eID);
 				System.out.println("Equipment deleted.");
 			}
