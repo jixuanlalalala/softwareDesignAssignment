@@ -13,6 +13,14 @@ public class AdminUI {
 	private ILogin usercontroller;
 	private Scanner sc;
 	
+	
+	public AdminUI(IEquipment equipmentController, IReport reportController, ILogin usercontroller) {
+		super();
+		this.equipmentController = equipmentController;
+		this.reportController = reportController;
+		this.usercontroller = usercontroller;
+	}
+
 	public AdminUI() {
 		this.equipmentController = new EquipmentController();
 		this.reportController = new ReportController(new BookingController());
@@ -29,8 +37,6 @@ public class AdminUI {
 		do {
 			
 			System.out.println("================================================================");
-			//equipmentController.viewEquipment();
-			//System.out.println("================================================================");
 			System.out.println("1. View Equipment");
 			System.out.println("2. Add New Equipment");
 			System.out.println("3. Update Equipment");
