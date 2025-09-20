@@ -109,8 +109,11 @@ public class BookingController implements IBooking{
 	@Override
 	public void updateBooking(String bookingId) {
 		Booking update = getBookingById(bookingId);
-		update.setEndDate(update.getEndDate().plusWeeks(1));
-		update.setUpdateCounter(update.getUpdateCounter()-1);
+		LocalDate endDate = update.getEndDate();
+		LocalDate updatedEndDate = endDate.plusWeeks(1);
+		update.setEndDate(updatedEndDate);
+		int updateCounterNew = update.getUpdateCounter()-1;
+		update.setUpdateCounter(updateCounterNew);
 		writeDataToFile();
 	}
 
