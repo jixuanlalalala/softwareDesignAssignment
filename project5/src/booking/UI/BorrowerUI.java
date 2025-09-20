@@ -212,36 +212,46 @@ public class BorrowerUI {
 
     public void returnBooking() {
         bookingController.viewBooking();
+        String equipmentID;
+        Equipment anEquipment;
+
         do{
-       System.out.println("Enter Booking ID to return or E to Exit>>>");
-        String bookingID = scanner.nextLine();
+            System.out.println("Enter Booking ID to return or E to Exit>>>");
+            String bookingID = scanner.nextLine();
 
-        Booking toReturn= bookingController.getBookingById(bookingID);
+            Booking toReturn = bookingController.getBookingById(bookingID);
+            //System.out.println(toReturn);
+        
 
-        if (bookingID.equalsIgnoreCase("E")) {
-            break;
-        } else if ((toReturn == null && !bookingID.equalsIgnoreCase("E"))) {
-            System.out.println("Invalid choice.");
+            if (bookingID.equalsIgnoreCase("E")) {
+                break;
+            }
+            if ((toReturn == null && !bookingID.equalsIgnoreCase("E"))) {
+                System.out.println("Invalid choice.");
 
-        }
+            }
 
-        else{
-             LocalDate returnDate =  LocalDate.now();
+            else{
+                equipmentID = toReturn.getEquipmentId();
+                anEquipment = equipmentController.getEquipmentById(equipmentID);
+                LocalDate returnDate =  LocalDate.now();
 
-             if (returnDate.isAfter(toReturn.getEndDate())) {
-                 System.out.println("Yoo please return the equipment earlier.");
-                 bookingController.returnBooking(toReturn.getBookingId(), returnDate);
-             } else {
-                 bookingController.returnBooking(toReturn.getBookingId(), returnDate);
-                 System.out.println("Return booking successfully");
-                 scanner.nextLine();
-                
-             }
-              break;
+                if (returnDate.isAfter(toReturn.getEndDate())) {
+                    System.out.println("Yoo please return the equipment earlier.");
+                    bookingController.returnBooking(toReturn.getBookingId(), returnDate);
+                } else {
+                    bookingController.returnBooking(toReturn.getBookingId(), returnDate);
+                    System.out.println("Return booking successfully");
+                    scanner.nextLine();
+
+                }
+                equipmentController.updateEquipment(anEquipment.getEquipmentId(), anEquipment.getName(),
+                        anEquipment.getCondition(), "available");
+                break;
            
             
-        }
-        }while (true);
+                }
+            }while (true);
        
         
         
