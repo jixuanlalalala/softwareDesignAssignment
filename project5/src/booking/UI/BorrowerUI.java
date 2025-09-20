@@ -190,13 +190,17 @@ public class BorrowerUI {
         } else if ((toUpdate == null && !bookingID.equalsIgnoreCase("E"))) {
             System.out.println("Invalid choice.");
 
-        }else if(toUpdate.getUpdateCounter() == 0){
-            System.out.println("Update reached limit. Please return the equipment. Thanks");
         }
         else{
+            int counter = toUpdate.getUpdateCounter();
+            if(counter==0){
+                System.out.println("Update reached limit. Please return the equipment. Thanks");
+            }
+            else{
+                System.out.println("Update booking successfully");
+                scanner.nextLine();
+            }
             bookingController.updateBooking(toUpdate.getBookingId());
-            System.out.println("Update booking successfully");
-            scanner.nextLine();
             break;
         }
         }while (true);
