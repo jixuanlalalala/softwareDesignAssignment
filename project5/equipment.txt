@@ -2,4 +2,4 @@ E001,HP monitor,used,booked
 E002,HDMI cable 3.0,used,available
 E004,Projector,new,available
 E005,Pen,used,available
-E006,Speaker,new,available
+E006,Speaker,broken,available

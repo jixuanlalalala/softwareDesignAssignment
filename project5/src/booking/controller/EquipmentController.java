@@ -90,6 +90,7 @@ public class EquipmentController implements IEquipment {
 		
 	}
 	
+	// Automatic generate Equipment ID for new equipment
 	public String generateNewEquipmentId() {
 		int maxId = 0;
 		
@@ -109,6 +110,8 @@ public class EquipmentController implements IEquipment {
 		return String.format("E%03d", nextId);
 	}
 
+	// Only if got any changes on the details, the setter will be trigger
+	// Else, the equipment details won't be change
 	@Override
 	public void updateEquipment(String id, String name, String condition, String status) {
 		Equipment e = getEquipmentById(id);
