@@ -116,30 +116,36 @@ public class BookingController implements IBooking{
 	}
 
 	@Override
-	public void viewBooking() {
-		if (bookings.isEmpty()) {
-			System.out.println("No bookings found.");
-			
-		}
-		else{
-			System.out.println("Current Booking(s):");
-		System.out.println("------------------------------------------------------------");
-		System.out.println(String.format("%-10s %-10s %-10s %-12s %-12s %-12s %-8s", 
-				"Booking ID", "User ID", "Equipment", "Start Date", "End Date","Return Date", "Updates"));
-		
-		for (Booking booking : bookings) {
-			System.out.println(String.format("%-10s %-10s %-10s %-12s %-12s %-12s %-8d", 
-					booking.getBookingId(),
-					booking.getUserId(),
-					booking.getEquipmentId(),
-					booking.getStartDate(),
-					booking.getEndDate(),
-					booking.getReturnDate(),
-					booking.getUpdateCounter()));
-		}
-		System.out.println("------------------------------------------------------------");
+	public void viewBooking(String userID) {
 
-		}
+			System.out.println("Current Booking(s):");
+			System.out.println("---------------------------------------------------------------------------------");
+			System.out.println(String.format("%-10s %-10s %-10s %-12s %-12s %-12s %-8s", 
+					"Booking ID", "User ID", "Equipment", "Start Date", "End Date","Return Date", "Updates"));
+		
+			boolean flag = false;
+
+			for (Booking booking : bookings) {
+				if(booking.getUserId().equals(userID)){
+					System.out.println(String.format("%-10s %-10s %-10s %-12s %-12s %-12s %-8d", 
+						booking.getBookingId(),
+						booking.getUserId(),
+						booking.getEquipmentId(),
+						booking.getStartDate(),
+						booking.getEndDate(),
+						booking.getReturnDate(),
+						booking.getUpdateCounter()));
+					flag = true;
+				}
+			}
+
+			if(!flag)
+				
+				System.out.println("\nZero record, please borrow something, thanks.\n");
+				
+			
+			System.out.println("----------------------------------------------------------------------------------");
+
 		
 	}
 

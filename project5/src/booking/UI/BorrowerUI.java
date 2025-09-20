@@ -83,12 +83,12 @@ public class BorrowerUI {
 
         do {
             System.out.println("Manage Booking Services");
-            System.out.println("=======================================================");
+            System.out.println("==========================================================");
             System.out.println("1. Create Booking");
             System.out.println("2. Update Existing Booking");
             System.out.println("3. Return Booked Equipment");
             System.out.println("E. Exit");
-            System.out.println("=======================================================");
+            System.out.println("==========================================================");
 
             System.out.print("Enter your choice (1, 2, 3, E) >>");
             bookingServiceOption = scanner.nextLine();
@@ -119,9 +119,6 @@ public class BorrowerUI {
                     break;
                 case "2":
                      updateBooking();
-                  
-                
-                   
                     break;
                 case "3":
                     returnBooking();
@@ -174,7 +171,6 @@ public class BorrowerUI {
             System.out.println("Create booking successfully");
             scanner.nextLine();
             break;
-
             }
 
         }
@@ -186,9 +182,10 @@ public class BorrowerUI {
 
 
     public void updateBooking() {
-        bookingController.viewBooking();
-        
-        
+        Borrower currentBorrower = (Borrower) usercontroller.getUser();
+        String currentUserID = currentBorrower.getUserId();
+        bookingController.viewBooking(currentUserID);
+
         do{
         System.out.println("Enter Booking ID to extend or E to Exit>>>");
         String bookingID = scanner.nextLine();
@@ -219,7 +216,9 @@ public class BorrowerUI {
     }
 
     public void returnBooking() {
-        bookingController.viewBooking();
+        Borrower currentBorrower = (Borrower) usercontroller.getUser();
+        String currentUserID = currentBorrower.getUserId();
+        bookingController.viewBooking(currentUserID);
         String equipmentID;
         Equipment anEquipment;
 
@@ -276,8 +275,5 @@ public class BorrowerUI {
         usercontroller.setUser(null);
     }
 
-    public static void main(String[] args) {
-        BorrowerUI bw = new BorrowerUI();
-        bw.showMenu();
-    }
+
 }

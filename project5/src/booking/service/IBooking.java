@@ -10,7 +10,7 @@ import booking.entity.Equipment;
 public interface IBooking extends IFile {
 
 
-    public void viewBooking();
+    public void viewBooking(String userID);
 
     public void createBooking(Equipment anEquipment, Borrower aBorrower);
 
