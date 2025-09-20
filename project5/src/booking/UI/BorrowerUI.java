@@ -153,25 +153,32 @@ public class BorrowerUI {
         System.out.print("Enter Equipment ID or E to exit >>>");
         equipmentID = scanner.nextLine();
         anEquipment = equipmentController.getEquipmentById(equipmentID);
+        
 
         if (equipmentID.equalsIgnoreCase("E")) {
             break;
         } else if ((anEquipment == null && !equipmentID.equalsIgnoreCase("E"))) {
             System.out.println("Invalid choice.");
-
         }
-
-        else if (anEquipment != null && anEquipment.getStatus().equals("booked")) {
-            System.out.println("Equipment booked. ");
-
-        }
+        
         else{
-            bookingController.createBooking(anEquipment, aBorrower);
+            String status = anEquipment.getStatus();
+
+            if(status.equals("booked"))
+                System.out.println("Equipment booked. ");
+
+            else{
+                 bookingController.createBooking(anEquipment, aBorrower);
             equipmentController.updateEquipment(anEquipment.getEquipmentId(), anEquipment.getName(), anEquipment.getCondition(), "booked");
             System.out.println("Create booking successfully");
             scanner.nextLine();
             break;
+
+            }
+
         }
+           
+        
         }while (true);
     } 
 
