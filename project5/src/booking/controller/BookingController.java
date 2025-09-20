@@ -18,11 +18,10 @@ import java.time.LocalDate;
 public class BookingController implements IBooking{
 
 	private ArrayList<Booking> bookings;
-	public IEquipment equipmentService;
+
 	
 	public BookingController() {
 		this.bookings = new ArrayList<Booking>();
-		this.equipmentService = new EquipmentController();
 		getDataFromFile();
 		//writeDataToFile();
 	}
