@@ -248,8 +248,6 @@ public class AdminUI {
         }
 
 		this.reportController.generateReport(startDate, endDate);
-
-        scanner.close();
     }
 	
 	//this one for testing purpose, will remove after completed
