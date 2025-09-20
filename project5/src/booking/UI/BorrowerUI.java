@@ -235,13 +235,15 @@ public class BorrowerUI {
 
                 if (returnDate.isAfter(recordEndDate)) {
                     System.out.println("Yoo please return the equipment earlier.");
-                    bookingController.returnBooking(toReturn.getBookingId(), returnDate);
+                    
                 } else {
-                    bookingController.returnBooking(toReturn.getBookingId(), returnDate);
+                    
                     System.out.println("Return booking successfully");
                     scanner.nextLine();
 
                 }
+
+                bookingController.returnBooking(toReturn.getBookingId(), returnDate);
                 equipmentController.updateEquipment(anEquipment.getEquipmentId(), anEquipment.getName(),
                         anEquipment.getCondition(), "available");
                  usercontroller.updateCurrentBookingNo( currentBorrower.getUserId(),  currentBorrower.getCurrentBookingNo() - 1);
