@@ -27,14 +27,6 @@ public class BorrowerUI {
         this.equipmentController =  equipmentController;
     }
     
-
-    public BorrowerUI() {
-        this.bookingController = new BookingController();
-        this.usercontroller =  new UserController();
-        this.equipmentController =  new EquipmentController();
-    }
-
-
     public void showMenu() {
         scanner = new Scanner(System.in);
         int borrowerMainPageOption;
@@ -165,12 +157,12 @@ public class BorrowerUI {
                 System.out.println("Equipment booked. ");
 
             else{
-                 bookingController.createBooking(anEquipment, aBorrower);
-            equipmentController.updateEquipment(anEquipment.getEquipmentId(), anEquipment.getName(), anEquipment.getCondition(), "booked");
-            usercontroller.updateCurrentBookingNo(aBorrower.getUserId(), aBorrower.getCurrentBookingNo() - 1);
-            System.out.println("Create booking successfully");
-            scanner.nextLine();
-            break;
+                    bookingController.createBooking(anEquipment, aBorrower);
+                    equipmentController.updateEquipment(anEquipment.getEquipmentId(), anEquipment.getName(), anEquipment.getCondition(), "booked");
+                    usercontroller.updateCurrentBookingNo(aBorrower.getUserId(), aBorrower.getCurrentBookingNo() - 1);
+                    System.out.println("Create booking successfully");
+                    scanner.nextLine();
+                    break;
             }
 
         }
@@ -207,12 +199,7 @@ public class BorrowerUI {
             break;
         }
         }while (true);
-        
-
-      
-
-
-
+    
     }
 
     public void returnBooking() {
@@ -241,9 +228,11 @@ public class BorrowerUI {
             else{
                 equipmentID = toReturn.getEquipmentId();
                 anEquipment = equipmentController.getEquipmentById(equipmentID);
+                LocalDate recordEndDate = toReturn.getEndDate();
+
                 LocalDate returnDate =  LocalDate.now();
 
-                if (returnDate.isAfter(toReturn.getEndDate())) {
+                if (returnDate.isAfter(recordEndDate)) {
                     System.out.println("Yoo please return the equipment earlier.");
                     bookingController.returnBooking(toReturn.getBookingId(), returnDate);
                 } else {
@@ -254,6 +243,7 @@ public class BorrowerUI {
                 }
                 equipmentController.updateEquipment(anEquipment.getEquipmentId(), anEquipment.getName(),
                         anEquipment.getCondition(), "available");
+                 usercontroller.updateCurrentBookingNo( currentBorrower.getUserId(),  currentBorrower.getCurrentBookingNo() - 1);
                 break;
            
             
