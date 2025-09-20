@@ -33,17 +33,16 @@ public class UserController implements IProfile, IRegister, ILogin{
         return this.user = user;
     }
 
-    @Override
-    public boolean editProfile() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'editProfile'");
-    }
-
 	@Override
 	public void login(String qwerty, String password) {
 		// TODO Auto-generated method stub
 		
 	}
+
+    @Override
+    public void logout() {
+        this.user = null;
+    }
 
     @Override
     public void getDataFromFile() {
@@ -79,10 +78,17 @@ public class UserController implements IProfile, IRegister, ILogin{
         }
     }
     
-    public void addUser(User user) {
+    public User signUp(String userId, String name, String email, String password,
+                String phoneNumber, String status, String role, String lastLogin, int failedAttempts) {
+        User user = new Borrower(userId, name, email, password, phoneNumber, status, role, lastLogin, failedAttempts, 5);
+        
         if (users.add(user)) {
             writeDataToFile();
+
+            return user;
         }
+
+        return null;
     }
     
     public User findUserById(String userId) {
@@ -150,6 +156,30 @@ public class UserController implements IProfile, IRegister, ILogin{
         User user = findUserById(userId);
         if (user != null && user instanceof Borrower) {
             ((Borrower) user).setCurrentBookingNo(newBookingNo);
+            updateUser(user);
+        }
+    }
+
+    public void updateName(String userId, String newName) {
+        User user = findUserById(userId);
+        if (user != null) {
+            user.setName(newName);
+            updateUser(user);
+        }
+    }
+
+    public void updatePhoneNumber(String userId, String newPhoneNumber) {
+        User user = findUserById(userId);
+        if (user != null) {
+            user.setPhoneNumber(newPhoneNumber);
+            updateUser(user);
+        }
+    }
+
+    public void updateEmail(String userId, String newEmail) {
+        User user = findUserById(userId);
+        if (user != null) {
+            user.setEmail(newEmail);
             updateUser(user);
         }
     }

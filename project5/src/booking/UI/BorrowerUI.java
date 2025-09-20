@@ -10,18 +10,19 @@ import booking.controller.EquipmentController;
 import booking.entity.Booking;
 import booking.entity.Borrower;
 import booking.entity.Equipment;
+import booking.entity.User;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class BorrowerUI {
     private IBooking bookingController;
-    private ILogin usercontroller;
+    private IProfile usercontroller;
     private IProfile profileController;
     private IEquipment equipmentController;
     private Scanner scanner;
 
-    public BorrowerUI(IBooking bookingController, ILogin usercontroller, IEquipment equipmentController) {
+    public BorrowerUI(IBooking bookingController, IProfile usercontroller, IEquipment equipmentController) {
         this.bookingController = bookingController;
         this.usercontroller =  usercontroller;
         this.equipmentController =  equipmentController;
@@ -251,12 +252,89 @@ public class BorrowerUI {
 
     // Edit Profile Menu
     public void editProfile() {
+        scanner = new Scanner(System.in);
+        String profileServiceOption;
 
+        do {
+            System.out.println("Edit Profile Services");
+            System.out.println("=======================================================");
+            System.out.println("1. Edit Name");
+            System.out.println("2. Edit Phone Number");
+            System.out.println("3. Edit Email Address");
+            System.out.println("E. Exit");
+            System.out.println("=======================================================");
+
+            System.out.print("Enter your choice (1, 2, 3, E) >>");
+            profileServiceOption = scanner.nextLine();
+
+            while (!profileServiceOption.equalsIgnoreCase("1") && !profileServiceOption.equalsIgnoreCase("2")
+                    && !profileServiceOption.equalsIgnoreCase("3")&& !profileServiceOption.equalsIgnoreCase("E")) {
+                System.out.println("Invalid choice. Please choose again.");
+                System.out.print("Enter your choice (1, 2, 3, E) >>");
+                profileServiceOption = scanner.nextLine();
+            }
+
+            switch (profileServiceOption) {
+                case "1":
+                    editName();
+                    break;
+                case "2":
+                    editPhoneNumber();
+                    break;
+                case "3":
+                    editEmailAddress();
+                    break;
+                case "E":
+                    break;
+                default:
+                    break;
+            }
+
+        } while (!profileServiceOption.equalsIgnoreCase("E"));
+    }
+
+    public void editName() {
+        System.out.print("Enter new name >>");
+        String newName = scanner.nextLine();
+
+        User user = usercontroller.getUser();
+        String userId = user.getUserId();
+
+        usercontroller.updateName(userId, newName);
+
+        System.out.println("Name updated successfully.");
+        scanner.nextLine();
+    }
+
+    public void editPhoneNumber() {
+        System.out.print("Enter new phone number >>");
+        String newPhoneNumber = scanner.nextLine();
+
+        User user = usercontroller.getUser();
+        String userId = user.getUserId();
+
+        usercontroller.updatePhoneNumber(userId, newPhoneNumber);
+
+        System.out.println("Phone number updated successfully.");
+        scanner.nextLine();
+    }
+
+    public void editEmailAddress() {
+        System.out.print("Enter new email address >>");
+        String newEmail = scanner.nextLine();
+
+        User user = usercontroller.getUser();
+        String userId = user.getUserId();
+
+        usercontroller.updateEmail(userId, newEmail);
+        
+        System.out.println("Email address updated successfully.");
+        scanner.nextLine();
     }
 
     // Logout
     public void logout() {
-        usercontroller.setUser(null);
+        usercontroller.logout();
     }
 
     public static void main(String[] args) {
