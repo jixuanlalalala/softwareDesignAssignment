@@ -1,0 +1,6 @@
+U001,Admin,admin@gmail.com,654321,0123456789,Active,Admin,2025-09-20 12:37:22,0,LKCFES
+U002,Liang,liang@gmail.com,654321,0123456789,Active,Borrower,2025-09-20 12:31:37,0,5
+U926,Bob,bob@gmail.com,654321,0123456789,Active,Borrower,,0,5
+U909,John,john@gmail.com,123456,0123456789,Inactive,Borrower,,0,5
+U464,Darren,Darren@gmail.com,123456,0123456789,Active,Borrower,2025-09-17 22:09:49,0,5
+U383,jos,jos@gmail.com,josjos,0123456789,Active,Borrower,2025-09-17 22:11:55,0,5
