@@ -12,6 +12,7 @@ import booking.controller.UserController;
 import booking.entity.Borrower;
 import booking.entity.User;
 import booking.service.ILogin;
+import booking.service.IProfile;
 
 public class LoginUI {
 
@@ -120,7 +121,7 @@ public class LoginUI {
         } else {
             System.out.println("Redirecting to Borrowing Interface...");
 
-            BorrowerUI borrowerUI = new BorrowerUI(new BookingController(), usercontroller, new EquipmentController());
+            BorrowerUI borrowerUI = new BorrowerUI(new BookingController(), (IProfile)usercontroller, new EquipmentController());
             borrowerUI.showMenu();
         }
     }
@@ -136,8 +137,6 @@ public class LoginUI {
             System.out.println("Registration cancelled.");
             return;
         }
-
-        usercontroller.addUser(user);
 
         System.out.println("\n✓ Inactive borrower account created successfully!");
         System.out.println("User ID: " + user.getUserId());
@@ -172,7 +171,10 @@ public class LoginUI {
         String contactInfo = getValidInput("Contact Information (Phone Number): ", this::isValidContact);
         if (contactInfo == null) return null;
         String userId = generateUserId();
-        return new Borrower(userId, name, contactInfo, password, email, "Inactive", "Borrower", "", 0, 5);
+
+        User user = usercontroller.signUp(userId, name, email, password, contactInfo, "Inactive", "Borrower", "", 0);
+
+        return user;
     }
 
     private String getValidInput(String prompt, InputValidator validator) {

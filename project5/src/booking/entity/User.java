@@ -11,8 +11,8 @@ public class User {
     private String lastLogin;
     private int failedAttempts;
 
-    public User(String userId, String name, String phoneNumber, String password,
-                String email, String status, String role, String lastLogin, int failedAttempts)
+    public User(String userId, String name, String email, String password,
+                String phoneNumber, String status, String role, String lastLogin, int failedAttempts)
     {
         this.userId = userId;
         this.name = name;

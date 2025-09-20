@@ -126,7 +126,7 @@ public class BookingController implements IBooking{
 			boolean flag = false;
 
 			for (Booking booking : bookings) {
-				if(booking.getUserId().equals(userID)){
+				if(booking.getUserId().equals(userID) && booking.getReturnDate()==null){
 					System.out.println(String.format("%-10s %-10s %-10s %-12s %-12s %-12s %-8d", 
 						booking.getBookingId(),
 						booking.getUserId(),
@@ -136,7 +136,9 @@ public class BookingController implements IBooking{
 						booking.getReturnDate(),
 						booking.getUpdateCounter()));
 					flag = true;
+					
 				}
+				
 			}
 
 			if(!flag)
