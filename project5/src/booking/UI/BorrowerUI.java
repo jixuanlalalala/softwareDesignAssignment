@@ -256,7 +256,7 @@ public class BorrowerUI {
 
     // Logout
     public void logout() {
-
+        usercontroller.setUser(null);
     }
 
     public static void main(String[] args) {
