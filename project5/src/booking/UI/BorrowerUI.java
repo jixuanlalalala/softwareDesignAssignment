@@ -28,14 +28,6 @@ public class BorrowerUI {
         this.equipmentController =  equipmentController;
     }
     
-
-    public BorrowerUI() {
-        this.bookingController = new BookingController();
-        this.usercontroller =  new UserController();
-        this.equipmentController =  new EquipmentController();
-    }
-
-
     public void showMenu() {
         scanner = new Scanner(System.in);
         int borrowerMainPageOption;
@@ -84,12 +76,12 @@ public class BorrowerUI {
 
         do {
             System.out.println("Manage Booking Services");
-            System.out.println("=======================================================");
+            System.out.println("==========================================================");
             System.out.println("1. Create Booking");
             System.out.println("2. Update Existing Booking");
             System.out.println("3. Return Booked Equipment");
             System.out.println("E. Exit");
-            System.out.println("=======================================================");
+            System.out.println("==========================================================");
 
             System.out.print("Enter your choice (1, 2, 3, E) >>");
             bookingServiceOption = scanner.nextLine();
@@ -120,9 +112,6 @@ public class BorrowerUI {
                     break;
                 case "2":
                      updateBooking();
-                  
-                
-                   
                     break;
                 case "3":
                     returnBooking();
@@ -154,35 +143,42 @@ public class BorrowerUI {
         System.out.print("Enter Equipment ID or E to exit >>>");
         equipmentID = scanner.nextLine();
         anEquipment = equipmentController.getEquipmentById(equipmentID);
+        
 
         if (equipmentID.equalsIgnoreCase("E")) {
             break;
         } else if ((anEquipment == null && !equipmentID.equalsIgnoreCase("E"))) {
             System.out.println("Invalid choice.");
-
         }
-
-        else if (anEquipment != null && anEquipment.getStatus().equals("booked")) {
-            System.out.println("Equipment booked. ");
-
-        }
+        
         else{
-            bookingController.createBooking(anEquipment, aBorrower);
-            equipmentController.updateEquipment(anEquipment.getEquipmentId(), anEquipment.getName(), anEquipment.getCondition(), "booked");
-            usercontroller.updateCurrentBookingNo(aBorrower.getUserId(), aBorrower.getCurrentBookingNo() - 1);
-            System.out.println("Create booking successfully");
-            scanner.nextLine();
-            break;
+            String status = anEquipment.getStatus();
+
+            if(status.equals("booked"))
+                System.out.println("Equipment booked. ");
+
+            else{
+                    bookingController.createBooking(anEquipment, aBorrower);
+                    equipmentController.updateEquipment(anEquipment.getEquipmentId(), anEquipment.getName(), anEquipment.getCondition(), "booked");
+                    usercontroller.updateCurrentBookingNo(aBorrower.getUserId(), aBorrower.getCurrentBookingNo() - 1);
+                    System.out.println("Create booking successfully");
+                    scanner.nextLine();
+                    break;
+            }
+
         }
+           
+        
         }while (true);
     } 
 
 
 
     public void updateBooking() {
-        bookingController.viewBooking();
-        
-        
+        Borrower currentBorrower = (Borrower) usercontroller.getUser();
+        String currentUserID = currentBorrower.getUserId();
+        bookingController.viewBooking(currentUserID);
+
         do{
         System.out.println("Enter Booking ID to extend or E to Exit>>>");
         String bookingID = scanner.nextLine();
@@ -204,46 +200,56 @@ public class BorrowerUI {
             break;
         }
         }while (true);
-        
-
-      
-
-
-
+    
     }
 
     public void returnBooking() {
-        bookingController.viewBooking();
+        Borrower currentBorrower = (Borrower) usercontroller.getUser();
+        String currentUserID = currentBorrower.getUserId();
+        bookingController.viewBooking(currentUserID);
+        String equipmentID;
+        Equipment anEquipment;
+
         do{
-       System.out.println("Enter Booking ID to return or E to Exit>>>");
-        String bookingID = scanner.nextLine();
+            System.out.println("Enter Booking ID to return or E to Exit>>>");
+            String bookingID = scanner.nextLine();
 
-        Booking toReturn= bookingController.getBookingById(bookingID);
+            Booking toReturn = bookingController.getBookingById(bookingID);
+            //System.out.println(toReturn);
+        
 
-        if (bookingID.equalsIgnoreCase("E")) {
-            break;
-        } else if ((toReturn == null && !bookingID.equalsIgnoreCase("E"))) {
-            System.out.println("Invalid choice.");
+            if (bookingID.equalsIgnoreCase("E")) {
+                break;
+            }
+            if ((toReturn == null && !bookingID.equalsIgnoreCase("E"))) {
+                System.out.println("Invalid choice.");
 
-        }
+            }
 
-        else{
-             LocalDate returnDate =  LocalDate.now();
+            else{
+                equipmentID = toReturn.getEquipmentId();
+                anEquipment = equipmentController.getEquipmentById(equipmentID);
+                LocalDate recordEndDate = toReturn.getEndDate();
 
-             if (returnDate.isAfter(toReturn.getEndDate())) {
-                 System.out.println("Yoo please return the equipment earlier.");
-                 bookingController.returnBooking(toReturn.getBookingId(), returnDate);
-             } else {
-                 bookingController.returnBooking(toReturn.getBookingId(), returnDate);
-                 System.out.println("Return booking successfully");
-                 scanner.nextLine();
-                
-             }
-              break;
+                LocalDate returnDate =  LocalDate.now();
+
+                if (returnDate.isAfter(recordEndDate)) {
+                    System.out.println("Yoo please return the equipment earlier.");
+                    bookingController.returnBooking(toReturn.getBookingId(), returnDate);
+                } else {
+                    bookingController.returnBooking(toReturn.getBookingId(), returnDate);
+                    System.out.println("Return booking successfully");
+                    scanner.nextLine();
+
+                }
+                equipmentController.updateEquipment(anEquipment.getEquipmentId(), anEquipment.getName(),
+                        anEquipment.getCondition(), "available");
+                 usercontroller.updateCurrentBookingNo( currentBorrower.getUserId(),  currentBorrower.getCurrentBookingNo() - 1);
+                break;
            
             
-        }
-        }while (true);
+                }
+            }while (true);
        
         
         
@@ -337,8 +343,5 @@ public class BorrowerUI {
         usercontroller.logout();
     }
 
-    public static void main(String[] args) {
-        BorrowerUI bw = new BorrowerUI();
-        bw.showMenu();
-    }
+
 }

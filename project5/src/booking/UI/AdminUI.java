@@ -28,53 +28,99 @@ public class AdminUI {
 		this.usercontroller = new UserController();
 	}
 	
-	
+	// Admin Menu
+	// Managing equipment and generate report
 	public void showMenu() {
-		System.out.println("\nWelcome to Admin Page");
 		sc = new Scanner(System.in);
 		
 		int choice;
 		
 		do {
-			
+			System.out.println("\nWelcome to Admin Page");
 			System.out.println("================================================================");
 			System.out.println("1. View Equipment");
-			System.out.println("2. Add New Equipment");
-			System.out.println("3. Update Equipment");
-			System.out.println("4. Delete Equipment");
-			System.out.println("5. Generate Report");
-			System.out.println("6. Logout");
+			System.out.println("2. Manage Equipment");
+			System.out.println("3. Generate Report");
+			System.out.println("4. Logout");
 			System.out.println("================================================================");
 			
-			System.out.print("Enter your choice (1-6): ");
+			System.out.print("Enter your choice (1-4): ");
 			choice = sc.nextInt();
 			String skip = sc.nextLine();
 			
-			while (choice < 1 || choice > 6) {
+			while (choice < 1 || choice > 4) {
 				System.out.println("Invalid choice.");
-				System.out.print("Enter your choice (1-6): ");
+				System.out.print("Enter your choice (1-4): ");
 				choice = sc.nextInt();
 				skip = sc.nextLine();
 			}
 			
 			switch (choice) {
 				case 1: viewEquipment();break;
-				case 2: addEquipment();break;
-				case 3: updateEquipment();break;
-				case 4: deleteEquipment();break;
-				case 5: generateReport();break;
-				case 6:break; //add your method here
+				case 2: manageEquipment();break;
+				case 3: generateReport();break;
+				case 4:break; //add your method here
 			}
 			System.out.println();
 			
-		} while (choice != 6);
+		} while (choice != 4);
 	}
 	
+	// Manage Equipment Menu
+	public void manageEquipment() {
+		
+
+		sc = new Scanner(System.in);
+
+		int choice;
+
+		do {
+			System.out.println("\nManage Equipment");
+			System.out.println("================================================================");
+			viewEquipment();
+			System.out.println("================================================================");
+			System.out.println("1. Add New Equipment");
+			System.out.println("2. Update Equipment");
+			System.out.println("3. Delete Equipment");
+			System.out.println("4. Return to Admin Page");
+			System.out.println("================================================================");
+
+			System.out.print("Enter your choice (1-4): ");
+			choice = sc.nextInt();
+			String skip = sc.nextLine();
+
+			while (choice < 1 || choice > 4) {
+				System.out.println("Invalid choice.");
+				System.out.print("Enter your choice (1-4): ");
+				choice = sc.nextInt();
+				skip = sc.nextLine();
+			}
+
+			switch (choice) {
+			case 1:
+				addEquipment();
+				break;
+			case 2:
+				updateEquipment();
+				break;
+			case 3:
+				deleteEquipment();
+				break;
+			}
+			System.out.println();
+
+		} while (choice != 4);
+
+	}
+	
+	// Display Equipment Details
 	public void viewEquipment() {
 		System.out.println();
 		equipmentController.viewEquipment();
 	}
+	
 
+	// Add Equipment
 	public void addEquipment() {
 		String eName;
 		
@@ -95,6 +141,7 @@ public class AdminUI {
 		
 		System.out.println("Enter equipment condition [new/used/broken]: ");
 		String eCondition = sc.nextLine();
+		// Only 3 conditions could be accept
 		while (!eCondition.equals("new") && !eCondition.equals("used") && !eCondition.equals("broken")) {
 			System.out.println("Invalid condition");
 			System.out.println("Enter equipment condition [new/used/broken]: ");
@@ -107,6 +154,7 @@ public class AdminUI {
 	}
 	
 	
+	// Update Equipment
 	public void updateEquipment() {
 		
 		while (true) {
@@ -143,6 +191,7 @@ public class AdminUI {
 		
 	}
 	
+	// Delete Equipment by enter Equipment ID
 	public void deleteEquipment() {
 		while (true) {
 			System.out.println("Enter equipment ID or E to exit: ");
