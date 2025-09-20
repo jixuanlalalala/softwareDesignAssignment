@@ -21,10 +21,10 @@ public class BorrowerUI {
     private IEquipment equipmentController;
     private Scanner scanner;
 
-    public BorrowerUI(IBooking bookingController, ILogin usercontroller, IProfile profileController) {
-        this.bookingController = new BookingController();
-        this.usercontroller =  new UserController();
-        //this.profileController = new profileController();
+    public BorrowerUI(IBooking bookingController, ILogin usercontroller, IEquipment equipmentController) {
+        this.bookingController = bookingController;
+        this.usercontroller =  usercontroller;
+        this.equipmentController =  equipmentController;
     }
     
 
@@ -170,6 +170,7 @@ public class BorrowerUI {
             else{
                  bookingController.createBooking(anEquipment, aBorrower);
             equipmentController.updateEquipment(anEquipment.getEquipmentId(), anEquipment.getName(), anEquipment.getCondition(), "booked");
+            usercontroller.updateCurrentBookingNo(aBorrower.getUserId(), aBorrower.getCurrentBookingNo() - 1);
             System.out.println("Create booking successfully");
             scanner.nextLine();
             break;
