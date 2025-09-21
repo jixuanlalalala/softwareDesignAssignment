@@ -1,15 +1,15 @@
 package booking.UI;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.io.*;
+import java.util.Random;
+import java.util.Date;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import booking.controller.BookingController;
 import booking.controller.EquipmentController;
 import booking.controller.ReportController;
 import booking.controller.UserController;
-import booking.entity.Borrower;
 import booking.entity.User;
 import booking.service.ILogin;
 import booking.service.IProfile;

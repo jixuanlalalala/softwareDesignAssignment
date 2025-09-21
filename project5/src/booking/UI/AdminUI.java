@@ -1,11 +1,15 @@
 package booking.UI;
 
-import booking.controller.*;
-import booking.service.*;
-import booking.entity.*;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Scanner;
+
+import booking.controller.EquipmentController;
+import booking.controller.ReportController;
+import booking.entity.Equipment;
+import booking.controller.BookingController;
+import booking.service.IEquipment;
+import booking.service.IReport;
 
 public class AdminUI {
 	
