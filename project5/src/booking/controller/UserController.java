@@ -36,12 +36,6 @@ public class UserController implements IProfile, ILogin{
         this.user = user;
     }
 
-	@Override
-	public void login(String qwerty, String password) {
-		// TODO Auto-generated method stub
-		
-	}
-
     @Override
     public void logout() {
         this.user = null;
