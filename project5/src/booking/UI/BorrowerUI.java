@@ -190,13 +190,17 @@ public class BorrowerUI {
         } else if ((toUpdate == null && !bookingID.equalsIgnoreCase("E"))) {
             System.out.println("Invalid choice.");
 
-        }else if(toUpdate.getUpdateCounter() == 0){
-            System.out.println("Update reached limit. Please return the equipment. Thanks");
         }
         else{
+            int counter = toUpdate.getUpdateCounter();
+            if(counter==0){
+                System.out.println("Update reached limit. Please return the equipment. Thanks");
+            }
+            else{
+                System.out.println("Update booking successfully");
+                scanner.nextLine();
+            }
             bookingController.updateBooking(toUpdate.getBookingId());
-            System.out.println("Update booking successfully");
-            scanner.nextLine();
             break;
         }
         }while (true);
@@ -235,13 +239,15 @@ public class BorrowerUI {
 
                 if (returnDate.isAfter(recordEndDate)) {
                     System.out.println("Yoo please return the equipment earlier.");
-                    bookingController.returnBooking(toReturn.getBookingId(), returnDate);
+                    
                 } else {
-                    bookingController.returnBooking(toReturn.getBookingId(), returnDate);
+                    
                     System.out.println("Return booking successfully");
                     scanner.nextLine();
 
                 }
+
+                bookingController.returnBooking(toReturn.getBookingId(), returnDate);
                 equipmentController.updateEquipment(anEquipment.getEquipmentId(), anEquipment.getName(),
                         anEquipment.getCondition(), "available");
                  usercontroller.updateCurrentBookingNo( currentBorrower.getUserId(),  currentBorrower.getCurrentBookingNo() - 1);
