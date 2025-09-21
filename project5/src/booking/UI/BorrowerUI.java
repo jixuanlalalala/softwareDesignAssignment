@@ -2,11 +2,8 @@ package booking.UI;
 
 import booking.service.IBooking;
 import booking.service.IProfile;
-import booking.service.ILogin;
 import booking.service.IEquipment;
-import booking.controller.BookingController;
-import booking.controller.UserController;
-import booking.controller.EquipmentController;
+
 import booking.entity.Booking;
 import booking.entity.Borrower;
 import booking.entity.Equipment;
@@ -18,7 +15,6 @@ import java.util.Scanner;
 public class BorrowerUI {
     private IBooking bookingController;
     private IProfile usercontroller;
-    private IProfile profileController;
     private IEquipment equipmentController;
     private Scanner scanner;
 
