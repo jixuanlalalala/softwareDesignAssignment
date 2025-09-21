@@ -9,8 +9,11 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import booking.entity.*;
-import booking.service.*;
+import booking.entity.Admin;
+import booking.entity.Borrower;
+import booking.entity.User;
+import booking.service.ILogin;
+import booking.service.IProfile;
 
 public class UserController implements IProfile, ILogin{
 
@@ -29,8 +32,8 @@ public class UserController implements IProfile, ILogin{
         return user;
     }
 
-    public User setUser(User user) {
-        return this.user = user;
+    public void setUser(User user) {
+        this.user = user;
     }
 
 	@Override

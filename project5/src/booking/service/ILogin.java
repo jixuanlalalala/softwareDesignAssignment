@@ -4,7 +4,7 @@ import booking.entity.User;
 public interface ILogin extends IRegister, IFile {
     public void login(String qwerty, String password);
 
-    public User setUser(User user);
+    public void setUser(User user);
 
     public User findUserById(String userId);
 
