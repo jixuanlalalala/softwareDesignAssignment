@@ -12,7 +12,7 @@ import java.util.List;
 import booking.entity.*;
 import booking.service.*;
 
-public class UserController implements IProfile, IRegister, ILogin{
+public class UserController implements IProfile, ILogin{
 
     private List<User> users;
     private User user;
