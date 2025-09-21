@@ -1,7 +1,7 @@
 package booking.controller;
 
 import booking.entity.Equipment;
-import booking.service.*;
+import booking.service.IEquipment;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
