@@ -259,9 +259,9 @@ public class BorrowerUI {
     // Edit Profile Menu
     public void editProfile() {
         scanner = new Scanner(System.in);
-        String profileServiceOption;
+        String profileServiceOption = "";
 
-        do {
+        while (!profileServiceOption.equalsIgnoreCase("E")) {
             System.out.println("Edit Profile Services");
             System.out.println("=======================================================");
             System.out.println("1. Edit Name");
@@ -296,7 +296,7 @@ public class BorrowerUI {
                     break;
             }
 
-        } while (!profileServiceOption.equalsIgnoreCase("E"));
+        }
     }
 
     public void editName() {
