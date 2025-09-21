@@ -1,8 +1,6 @@
 package booking.controller;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -10,8 +8,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
-import booking.entity.*;
-import booking.service.*;
+import booking.entity.Booking;
+import booking.entity.Report;
+import booking.service.IBooking;
+import booking.service.IReport;
 
 public class ReportController implements IReport {
     IBooking bookingService;
@@ -22,7 +22,7 @@ public class ReportController implements IReport {
     }
 
     public void generateReport(LocalDate startDate, LocalDate endDate)
-    {
+    { 
         ArrayList<Booking> bookings = bookingService.getBookings();
 
         Report report = new Report(generateNewId(), startDate, endDate);
@@ -56,7 +56,7 @@ public class ReportController implements IReport {
     {
         // Set up pattern
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        LocalDate localDate;
+        LocalDate localDate = null;
         
         // Attempt to parse string to date
         try
@@ -65,7 +65,7 @@ public class ReportController implements IReport {
         }
         catch(DateTimeParseException e)
         {
-            return null;
+            
         }
 
         return localDate;
