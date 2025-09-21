@@ -11,21 +11,18 @@ public class AdminUI {
 	
 	private IEquipment equipmentController;
 	private IReport reportController;
-	private ILogin usercontroller;
 	private Scanner sc;
 	
 	
-	public AdminUI(IEquipment equipmentController, IReport reportController, ILogin usercontroller) {
+	public AdminUI(IEquipment equipmentController, IReport reportController) {
 		super();
 		this.equipmentController = equipmentController;
 		this.reportController = reportController;
-		this.usercontroller = usercontroller;
 	}
 
 	public AdminUI() {
 		this.equipmentController = new EquipmentController();
 		this.reportController = new ReportController(new BookingController());
-		this.usercontroller = new UserController();
 	}
 	
 	// Admin Menu
@@ -249,14 +246,6 @@ public class AdminUI {
 
 		this.reportController.generateReport(startDate, endDate);
     }
-	
-	//this one for testing purpose, will remove after completed
-	//must remember remove hahhh
-	public static void main(String[] args) {
-		AdminUI adminUI = new AdminUI();
-		adminUI.showMenu();
-	}
-
-	
+		
 
 }

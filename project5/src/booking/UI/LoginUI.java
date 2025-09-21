@@ -116,7 +116,7 @@ public class LoginUI {
         if ("Admin".equalsIgnoreCase(user.getRole())) {
             System.out.println("Redirecting to Administration Interface...");
             
-            AdminUI adminUI = new AdminUI(new EquipmentController(), new ReportController(new BookingController()), usercontroller);
+            AdminUI adminUI = new AdminUI(new EquipmentController(), new ReportController(new BookingController()));
             adminUI.showMenu();
         } else {
             System.out.println("Redirecting to Borrowing Interface...");
